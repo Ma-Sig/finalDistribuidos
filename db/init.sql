@@ -1,0 +1,16 @@
+CREATE TABLE productor (
+  id VARCHAR PRIMARY KEY,
+  nombre VARCHAR NOT NULL
+);
+
+CREATE TABLE pedido (
+  id SERIAL PRIMARY KEY,
+  nombre VARCHAR NOT NULL,
+  productor_id VARCHAR REFERENCES productor(id) ON DELETE CASCADE
+);
+
+CREATE TABLE repartidor (
+  id VARCHAR PRIMARY KEY,
+  nombre VARCHAR NOT NULL,
+  productor_id VARCHAR REFERENCES productor(id) ON DELETE SET NULL
+);
