@@ -1,17 +1,24 @@
-import React from 'react';
+// src/index.js
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import Login from './Login';
+import { isAuthenticated } from './auth';
+
+function Root() {
+  const [authenticated, setAuthenticated] = useState(isAuthenticated());
+
+  return authenticated ? (
+    <App />
+  ) : (
+    <Login onLoginSuccess={() => setAuthenticated(true)} />
+  );
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Root />
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

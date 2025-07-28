@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { TextField, Button, Select, MenuItem, InputLabel, FormControl, Snackbar, Alert, Box } from '@mui/material';
 
+const token = localStorage.getItem('token');
+
 function PedidoForm({ productores }) {
   const [nombre, setNombre] = useState('');
   const [productorId, setProductorId] = useState('');
@@ -16,9 +18,12 @@ function PedidoForm({ productores }) {
       return;
     }
 
-    const res = await fetch('/api/pedidos', {
+    const res = await fetch('http://localhost:80/pedidos', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
       body: JSON.stringify({ nombre, productor_id: productorId }),
     });
 

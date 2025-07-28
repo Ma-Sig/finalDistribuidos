@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { TextField, Button, Snackbar, Alert } from '@mui/material';
 
+const token = localStorage.getItem('token');
+
 function ProductorForm({ onAgregar }) {
   const [id, setId] = useState('');
   const [nombre, setNombre] = useState('');
@@ -16,11 +18,15 @@ function ProductorForm({ onAgregar }) {
       return;
     }
 
-    const res = await fetch('/api/productores', {
+    const res = await fetch('http://localhost:80/productores', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
       body: JSON.stringify({ id, nombre }),
     });
+    console.log('Response:', res);
 
     const data = await res.json();
     if (res.ok) {

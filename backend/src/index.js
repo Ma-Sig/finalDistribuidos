@@ -4,6 +4,8 @@ const { Pool } = require('pg');
 const kafka = require('kafka-node');
 const http = require('http');
 const socketIo = require('socket.io');
+const jwt = require('jsonwebtoken');
+const { authenticateToken } = require('./middleware/authJwt');
 
 const app = express();
 const server = http.createServer(app);
@@ -12,6 +14,7 @@ const instanceId = Math.floor(Math.random() * 10000);
 
 app.use(cors());
 app.use(express.json());
+// app.use(authenticateToken);
 
 
 // =====================================================
@@ -49,7 +52,7 @@ io.on('connection', (socket) => {
 //                      Rutas backend
 // =====================================================
 // Crear productor
-app.post('/productores', async (req, res) => {
+app.post('/productores', authenticateToken, async (req, res) => {
   const { id, nombre } = req.body;
   try {
     await pool.query('INSERT INTO productor (id, nombre) VALUES ($1, $2)', [id, nombre]);
@@ -60,7 +63,7 @@ app.post('/productores', async (req, res) => {
 });
 
 // Listar productores
-app.get('/productores', async (req, res) => {
+app.get('/productores', authenticateToken, async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM productor');
     res.json(result.rows);
@@ -70,7 +73,7 @@ app.get('/productores', async (req, res) => {
 });
 
 // Crear pedido y enviarlo por Kafka
-app.post('/pedidos', async (req, res) => {
+app.post('/pedidos', authenticateToken, async (req, res) => {
   const { nombre, productor_id } = req.body;
 
   try {
@@ -98,7 +101,7 @@ app.post('/pedidos', async (req, res) => {
 });
 
 // Listar pedidos
-app.get('/pedidos', async (req, res) => {
+app.get('/pedidos', authenticateToken, async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM pedido');
     res.json(result.rows);
@@ -109,6 +112,17 @@ app.get('/pedidos', async (req, res) => {
 
 app.get('/', (req, res) => {
   res.send(`Soy la instancia ${instanceId}`);
+});
+
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  if (username === 'admin' && password === 'admin') {
+    const payload = { username };
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+  
+    return res.json({ token });
+  }
+  return res.status(401).json({ message: 'Credenciales incorrectas' });
 });
 // =======================================
 

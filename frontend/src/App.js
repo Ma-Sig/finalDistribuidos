@@ -8,17 +8,26 @@ import ProductoresList from './components/ProductoresList';
 import PedidosList from './components/PedidosList';
 
 const socket = io('/api');
+const token = localStorage.getItem('token');
 
 function App() {
   const [productores, setProductores] = useState([]);
   const [pedidos, setPedidos] = useState([]);
 
   useEffect(() => {
-    fetch('/api/productores')
+    fetch('http://localhost:80/productores', {
+  headers: {
+    'Authorization': `Bearer ${token}`
+  }
+})
       .then((res) => res.json())
       .then(setProductores);
 
-    fetch('/api/pedidos')
+    fetch('http://localhost:80/pedidos', {
+  headers: {
+    'Authorization': `Bearer ${token}`
+  }
+})
       .then((res) => res.json())
       .then(setPedidos);
   }, []);
