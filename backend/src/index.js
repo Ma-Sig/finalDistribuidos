@@ -8,10 +8,15 @@ const socketIo = require('socket.io');
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
+const instanceId = Math.floor(Math.random() * 10000);
 
 app.use(cors());
 app.use(express.json());
 
+
+// =====================================================
+//              Conexión a la base de datos
+// =====================================================
 const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
@@ -27,30 +32,22 @@ pool.connect((err, client, release) => {
     release(); // Liberar el cliente al pool
   }
 });
+// =====================================================
 
-const instanceId = Math.floor(Math.random() * 10000);
 
-// Kafka producer setup
-// const Producer = kafka.Producer;
-// const client = new kafka.KafkaClient({ kafkaHost: 'kafka:9092' });
-// const producer = new Producer(client);
-
-// producer.on('ready', () => {
-//   console.log('Kafka Producer is connected and ready.');
-// });
-
-// producer.on('error', (err) => {
-//   console.error('Kafka Producer error:', err);
-// });
-
-// WebSocket connection
+// =====================================================
+//                Conexión con websocket
+// =====================================================
 io.on('connection', (socket) => {
   console.log('New client connected');
   socket.on('disconnect', () => console.log('Client disconnected'));
 });
+// =====================================================
 
-// Rutas backend
 
+// =====================================================
+//                      Rutas backend
+// =====================================================
 // Crear productor
 app.post('/productores', async (req, res) => {
   const { id, nombre } = req.body;
@@ -113,6 +110,8 @@ app.get('/pedidos', async (req, res) => {
 app.get('/', (req, res) => {
   res.send(`Soy la instancia ${instanceId}`);
 });
+// =======================================
+
 
 const PORT = 3000;
 server.listen(PORT, '0.0.0.0', () => {
