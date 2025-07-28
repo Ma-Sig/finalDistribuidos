@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 2  # Número de réplicas de tu contenedor
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: jcuzcoucuenca/my-backend  # Nombre de tu imagen Docker
+        ports:
+        - containerPort: 3000
+        livenessProbe:
+          httpGet:
+            path: /  # Ruta en la que tu contenedor expone su estado
+            port: 3000
+          initialDelaySeconds: 5  # Tiempo de espera antes de empezar la comprobación
+          periodSeconds: 10  # Cada cuánto hacer la comprobación
+          failureThreshold: 3  # Número de fallos antes de reiniciar el contenedor
+        readinessProbe:
+          httpGet:
+            path: /  # Ruta en la que tu contenedor está listo para recibir tráfico
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          failureThreshold: 3
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000

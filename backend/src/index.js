@@ -20,18 +20,20 @@ const pool = new Pool({
   port: 5432,
 });
 
+const instanceId = Math.floor(Math.random() * 10000);
+
 // Kafka producer setup
-const Producer = kafka.Producer;
-const client = new kafka.KafkaClient({ kafkaHost: 'kafka:9092' });
-const producer = new Producer(client);
+// const Producer = kafka.Producer;
+// const client = new kafka.KafkaClient({ kafkaHost: 'kafka:9092' });
+// const producer = new Producer(client);
 
-producer.on('ready', () => {
-  console.log('Kafka Producer is connected and ready.');
-});
+// producer.on('ready', () => {
+//   console.log('Kafka Producer is connected and ready.');
+// });
 
-producer.on('error', (err) => {
-  console.error('Kafka Producer error:', err);
-});
+// producer.on('error', (err) => {
+//   console.error('Kafka Producer error:', err);
+// });
 
 // WebSocket connection
 io.on('connection', (socket) => {
@@ -100,7 +102,11 @@ app.get('/pedidos', async (req, res) => {
   }
 });
 
+app.get('/', (req, res) => {
+  res.send(`Soy la instancia ${instanceId}`);
+});
+
 const PORT = 3000;
 server.listen(PORT, '0.0.0.0', () => {
-  console.log(`Backend escuchando en puerto ${PORT}`);
+  console.log(`Backend con instancia ${instanceId} escuchando en puerto ${PORT}`);
 });
