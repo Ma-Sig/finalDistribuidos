@@ -13,11 +13,19 @@ app.use(cors());
 app.use(express.json());
 
 const pool = new Pool({
-  user: 'user',
-  host: 'db',
-  database: 'sistema',
-  password: 'password',
-  port: 5432,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
+});
+pool.connect((err, client, release) => {
+  if (err) {
+    console.error('Error al conectar a la base de datos:', err.stack);
+  } else {
+    console.log('Conexión exitosa a la base de datos');
+    release(); // Liberar el cliente al pool
+  }
 });
 
 const instanceId = Math.floor(Math.random() * 10000);

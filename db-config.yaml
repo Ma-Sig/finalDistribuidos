@@ -1,0 +1,9 @@
+# Para datos no sensibles como host, puerto y nombre de la base de datos
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-config
+data:
+  DB_HOST: "aws-0-sa-east-1.pooler.supabase.com"
+  DB_NAME: "postgres"
+  DB_PORT: "6543"
