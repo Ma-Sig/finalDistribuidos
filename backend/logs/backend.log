@@ -1,0 +1,27 @@
+{"timestamp":"2025-07-29T09:10:33.583Z","level":"info","message":"Servidor iniciado","instanceId":6476,"port":3001}
+{"timestamp":"2025-07-29T09:10:35.577Z","level":"error","message":"Error al conectar a la base de datos","instanceId":6476,"error":"SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string"}
+{"timestamp":"2025-07-29T09:11:43.066Z","level":"error","message":"Error en Kafka Producer","instanceId":6476,"error":"getaddrinfo ENOTFOUND kafka"}
+{"timestamp":"2025-07-29T09:15:00.976Z","level":"info","message":"Servidor iniciado","instanceId":3306,"port":3001}
+{"timestamp":"2025-07-29T09:15:01.852Z","level":"error","message":"Error al conectar a la base de datos","instanceId":3306,"error":"SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string"}
+{"timestamp":"2025-07-29T09:17:34.005Z","level":"info","message":"Servidor iniciado","instanceId":5663,"port":3001}
+{"timestamp":"2025-07-29T09:17:34.465Z","level":"error","message":"Error al conectar a la base de datos","instanceId":5663,"error":"SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string"}
+{"timestamp":"2025-07-29T09:18:44.060Z","level":"info","message":"Servidor iniciado","instanceId":9811,"port":3001}
+{"timestamp":"2025-07-29T09:18:44.371Z","level":"error","message":"Error al conectar a la base de datos","instanceId":9811,"error":"Tenant or user not found"}
+{"timestamp":"2025-07-29T09:19:18.300Z","level":"info","message":"Servidor iniciado","instanceId":5769,"port":3001}
+{"timestamp":"2025-07-29T09:19:18.643Z","level":"error","message":"Error al conectar a la base de datos","instanceId":5769,"error":"Tenant or user not found"}
+{"timestamp":"2025-07-29T09:20:27.808Z","level":"error","message":"Error en Kafka Producer","instanceId":5769,"error":"getaddrinfo ENOTFOUND kafka"}
+{"timestamp":"2025-07-29T09:20:50.344Z","level":"info","message":"Servidor iniciado","instanceId":8041,"port":3001}
+{"timestamp":"2025-07-29T09:20:51.467Z","level":"error","message":"Error al conectar a la base de datos","instanceId":8041,"error":"la autentificaci�n password fall� para el usuario �usuario�"}
+{"timestamp":"2025-07-29T09:20:59.519Z","level":"info","message":"Kafka Producer está listo","instanceId":8041}
+{"timestamp":"2025-07-29T09:21:12.877Z","level":"info","message":"Servidor iniciado","instanceId":5258,"port":3001}
+{"timestamp":"2025-07-29T09:21:12.931Z","level":"error","message":"Error al conectar a la base de datos","instanceId":5258,"error":"la autentificaci�n password fall� para el usuario �usuario�"}
+{"timestamp":"2025-07-29T09:21:13.100Z","level":"info","message":"Kafka Producer está listo","instanceId":5258}
+{"timestamp":"2025-07-29T09:21:53.056Z","level":"info","message":"Servidor iniciado","instanceId":1527,"port":3001}
+{"timestamp":"2025-07-29T09:21:53.379Z","level":"error","message":"Error al conectar a la base de datos","instanceId":1527,"error":"Tenant or user not found"}
+{"timestamp":"2025-07-29T09:23:01.029Z","level":"error","message":"Error en Kafka Producer","instanceId":1527,"error":"getaddrinfo ENOTFOUND kafka"}
+{"timestamp":"2025-07-29T09:23:05.949Z","level":"info","message":"Servidor iniciado","instanceId":4273,"port":3001}
+{"timestamp":"2025-07-29T09:23:06.744Z","level":"info","message":"Conexión exitosa a la base de datos","instanceId":4273}
+{"timestamp":"2025-07-29T09:24:02.214Z","level":"error","message":"Error en Kafka Producer","instanceId":4273,"error":"getaddrinfo ENOTFOUND kafka"}
+{"timestamp":"2025-07-29T09:24:41.188Z","level":"info","message":"Servidor iniciado","instanceId":4329,"port":3001}
+{"timestamp":"2025-07-29T09:24:41.873Z","level":"info","message":"Conexión exitosa a la base de datos","instanceId":4329}
+{"timestamp":"2025-07-29T09:24:41.893Z","level":"info","message":"Kafka Producer está listo","instanceId":4329}

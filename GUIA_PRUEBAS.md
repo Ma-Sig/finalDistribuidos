@@ -41,10 +41,10 @@ docker-compose ps
 
 ```powershell
 # Probar que el backend responda
-curl http://localhost:3000
+curl http://localhost:3001
 
 # Probar frontend (si está configurado)
-curl http://localhost:80
+curl http://localhost:3000
 ```
 
 ### 2.4 Verificar logs del backend

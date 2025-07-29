@@ -42,7 +42,20 @@ function writeLog(level, message, metadata = {}) {
 }
 // =====================================================
 
-app.use(cors());
+// Configuración específica de CORS
+const corsOptions = {
+  origin: [
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:3001",
+  ],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "x-access-token"],
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 // app.use(authenticateToken);
 

@@ -1,23 +1,23 @@
 // src/auth.js
 export const login = async (username, password) => {
-  const res = await fetch('http://localhost:80/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+  const res = await fetch("/api/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password }),
   });
 
   if (!res.ok) {
-    throw new Error('Credenciales inválidas');
+    throw new Error("Credenciales inválidas");
   }
 
   const data = await res.json();
-  localStorage.setItem('token', data.token);
+  localStorage.setItem("token", data.token);
 };
 
 export const logout = () => {
-  localStorage.removeItem('token');
+  localStorage.removeItem("token");
 };
 
 export const isAuthenticated = () => {
-  return !!localStorage.getItem('token');
+  return !!localStorage.getItem("token");
 };

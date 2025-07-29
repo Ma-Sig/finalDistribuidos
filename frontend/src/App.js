@@ -1,42 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Typography, Divider } from '@mui/material';
-import io from 'socket.io-client';
+import React, { useEffect, useState } from "react";
+import { Container, Typography, Divider } from "@mui/material";
+import io from "socket.io-client";
 
-import ProductorForm from './components/ProductorForm';
-import PedidoForm from './components/PedidoForm';
-import ProductoresList from './components/ProductoresList';
-import PedidosList from './components/PedidosList';
+import ProductorForm from "./components/ProductorForm";
+import PedidoForm from "./components/PedidoForm";
+import ProductoresList from "./components/ProductoresList";
+import PedidosList from "./components/PedidosList";
 
-const socket = io('/api');
-const token = localStorage.getItem('token');
+const socket = io("/api");
+const token = localStorage.getItem("token");
 
 function App() {
   const [productores, setProductores] = useState([]);
   const [pedidos, setPedidos] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:80/productores', {
-  headers: {
-    'Authorization': `Bearer ${token}`
-  }
-})
+    fetch("http://localhost/api/productores", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((res) => res.json())
       .then(setProductores);
 
-    fetch('http://localhost:80/pedidos', {
-  headers: {
-    'Authorization': `Bearer ${token}`
-  }
-})
+    fetch("http://localhost/api/pedidos", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((res) => res.json())
       .then(setPedidos);
   }, []);
 
   useEffect(() => {
-    socket.on('nuevo_pedido', (pedido) => {
+    socket.on("nuevo_pedido", (pedido) => {
       setPedidos((prev) => [...prev, pedido]);
     });
-    return () => socket.off('nuevo_pedido');
+    return () => socket.off("nuevo_pedido");
   }, []);
 
   const agregarProductor = (nuevo) => {
