@@ -13,6 +13,9 @@ RUN npm install
 # Copiar el código fuente de la aplicación al contenedor
 COPY ./src ./src
 
+# Crear directorio para logs que será compartido con el sidecar
+RUN mkdir -p /usr/src/app/logs
+
 # Se expone el puerto en el que la aplicación escuchará
 EXPOSE 3000
 

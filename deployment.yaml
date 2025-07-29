@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: backend-deployment
 spec:
-  replicas: 2  # Número de réplicas de tu contenedor
+  replicas: 2 # Número de réplicas de tu contenedor
   selector:
     matchLabels:
       app: backend
@@ -12,30 +12,60 @@ spec:
       labels:
         app: backend
     spec:
+      volumes:
+        - name: shared-logs
+          emptyDir: {}
+        - name: fluent-bit-config
+          configMap:
+            name: fluent-bit-config
       containers:
-      - name: backend
-        image: jcuzcoucuenca/my-backend  # Nombre de tu imagen Docker
-        ports:
-        - containerPort: 3000
-        envFrom: # Para cargar las variables de entorno desde los secretos y configmaps
-          - secretRef:
-              name: db-secret
-          - configMapRef:
-              name: db-config
-        livenessProbe:
-          httpGet:
-            path: /  # Ruta en la que tu contenedor expone su estado
-            port: 3000
-          initialDelaySeconds: 5  # Tiempo de espera antes de empezar la comprobación
-          periodSeconds: 10  # Cada cuánto hacer la comprobación
-          failureThreshold: 3  # Número de fallos antes de reiniciar el contenedor
-        readinessProbe:
-          httpGet:
-            path: /  # Ruta en la que tu contenedor está listo para recibir tráfico
-            port: 3000
-          initialDelaySeconds: 5
-          periodSeconds: 10
-          failureThreshold: 3
+        # Contenedor principal - Backend
+        - name: backend
+          image: jcuzcoucuenca/my-backend # Nombre de tu imagen Docker
+          ports:
+            - containerPort: 3000
+          envFrom: # Para cargar las variables de entorno desde los secretos y configmaps
+            - secretRef:
+                name: db-secret
+            - configMapRef:
+                name: db-config
+          volumeMounts:
+            - name: shared-logs
+              mountPath: /app/logs
+          livenessProbe:
+            httpGet:
+              path: / # Ruta en la que tu contenedor expone su estado
+              port: 3000
+            initialDelaySeconds: 5 # Tiempo de espera antes de empezar la comprobación
+            periodSeconds: 10 # Cada cuánto hacer la comprobación
+            failureThreshold: 3 # Número de fallos antes de reiniciar el contenedor
+          readinessProbe:
+            httpGet:
+              path: / # Ruta en la que tu contenedor está listo para recibir tráfico
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
+
+        # Contenedor Sidecar - Fluent Bit para logs
+        - name: fluent-bit-sidecar
+          image: fluent/fluent-bit:2.1
+          volumeMounts:
+            - name: shared-logs
+              mountPath: /app/logs
+              readOnly: true
+            - name: fluent-bit-config
+              mountPath: /fluent-bit/etc
+              readOnly: true
+          command: ["/fluent-bit/bin/fluent-bit"]
+          args: ["--config=/fluent-bit/etc/fluent-bit.conf"]
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
 
 ---
 apiVersion: v1
